@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>Lista wizyt</h1>
+{% endblock %}
+
+{% block content %}
+<button class="btn btn-outline btn-primary " onclick="pokaz_form()">+ Dodaj</button>
+<div class="text-danger"> {{ error_string }} </div>
+<div class="m-3 p-1 border border-primary" id="dodaj_form">
+  <form method="post">
+    <input type="hidden" name="id" value="{{ id }}">
+    <div class="mb-3">
+      <label for="id_pacjenta" class="form-label">Pacjent</label>
+      <input type="text" class="form-control" id="id_pacjenta" name="id_pacjenta" readonly="readonly" value="{{ imie }} {{ nazwisko }}">
+    </div>
+    <div class="mb-3">
+      <label for="id_lekarza" class="form-label">Lekarz</label>
+      <input type="text" class="form-control" id="id_lekarza" name="id_lekarza" readonly="readonly" value="{{ imie_lek }} {{ nazwisko_lek }}">
+    </div>
+    <div class="mb-3">
+      <label for="data_wizyty" class="form-label">Data wizyty</label>
+      <input type="date" class="form-control" id="data_wizyty" name="data_wizyty" value="{{ data_wizyty }}">
+    </div>
+    <div class="mb-3">
+      <label for="godzina_wizyty" class="form-label">Godzina wizyty</label>
+      <input type="time" class="form-control" id="godzina_wizyty" name="godzina_wizyty" value="{{ godzina_wizyty }}">
+    </div>
+    <div class="mb-3">
+      <label for="notatka" class="form-label">Notatka</label>
+      <input type="text" class="form-control" id="notatka" name="notatka" value="{{ notatka }}" placeholder="Wpisz notatkę.">
+    </div>
+    <div class="mb-3">
+      <label for="czy_sie_odbyla" class="form-label">Czy się odbyła</label>
+      <input type="text" class="form-control" id="czy_sie_odbyla" name="czy_sie_odbyla" value="{{ czy_sie_odbyla }}" placeholder="Wpisz, czy wizyta się odbyła.">
+    </div>
+    <button type="submit" class="btn btn-primary">Zapisz</button>
+  </form>
+</div>
+
+{% endblock %}

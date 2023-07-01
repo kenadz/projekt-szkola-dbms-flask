@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>Lista pacjentów</h1>
+{% endblock %}
+
+{% block content %}
+<center><button id="toggleButton" class="btn btn-outline btn-primary" onclick="pokaz_form()">Dodaj +</button></center>
+<div class="text-danger"> {{ error_string }} </div>
+<div class="m-3 p-1 border border-primary" id="dodaj_form" style="display: none;">
+  <form method="post">
+    <div class="mb-3">
+      <label for="imie" class="form-label">Imię</label>
+      <input type="text" class="form-control" id="imie" name="imie" value="{{ request.form['imie'] }}" placeholder="Wpisz imię pacjenta.">
+    </div>
+    <div class="mb-3">
+      <label for="nazwisko" class="form-label">Nazwisko</label>
+      <input type="text" class="form-control" id="nazwisko" name="nazwisko" value="{{ request.form['nazwisko'] }}" placeholder="Wpisz nazwisko pacjenta.">
+    </div>
+    <div class="mb-3">
+      <label for="data_urodzenia" class="form-label">Data urodzenia</label>
+      <input type="date" class="form-control" id="data_urodzenia" name="data_urodzenia"
+        value="{{ request.form['data_urodzenia'] }}">
+    </div>
+    <div class="mb-3">
+      <label for="adres" class="form-label">Adres</label>
+      <input type="text" class="form-control" id="adres" name="adres" value="{{ request.form['adres'] }}" placeholder="Wpisz adres pacjenta.">
+    </div>
+    <div class="mb-3">
+      <label for="telefon" class="form-label">Telefon</label>
+      <input type="tel" class="form-control" id="telefon" name="telefon" pattern="[0-9]{3}-[0-9]{3}-[0-9]{3}" value="{{ request.form['telefon'] }}" placeholder="123-456-789">
+    </div>
+    <div class="mb-3">
+      <label for="email" class="form-label">E-mail</label>
+      <input type="email" class="form-control" id="email" name="email" value="{{ request.form['email'] }}" placeholder="przykladowy@mail.pl">
+    </div>
+    <button type="submit" class="btn btn-primary">Zapisz</button>
+  </form>
+</div>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th scope="col"> Imię </th>
+      <th scope="col"> Nazwisko </th>
+      <th scope="col"> Data urodzenia </th>
+      <th scope="col"> Adres </th>
+      <th scope="col"> Telefon </th>
+      <th scope="col"> Email </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    {% for (id_pacjenta, imie, nazwisko, data_urodzenia, adres, telefon, email) in data %}
+    <tr>
+      <td style="display: none"> {{id_pacjenta}} </td>
+      <td> {{imie}}</td>
+      <td> {{nazwisko}}</td>
+      <td> {{data_urodzenia}} </td>
+      <td> {{adres}}</td>
+      <td> {{telefon}}</td>
+      <td> {{email}}</td>
+      <td>
+        <form method="get" action="/edytuj_pacjenta">
+          <input type="hidden" name="id" value="{{id_pacjenta}}">
+          <button class="btn btn-outline btn-success" type="submit">Edytuj</button>
+        </form>
+        <form method="post">
+          <input type="hidden" name="id" value="{{id_pacjenta}}">
+          <button class="btn btn-outline btn-success" type="submit">Usuń</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+
+</table>
+
+<script>
+  function pokaz_form() {
+    var button = document.getElementById("toggleButton");
+    var form = document.getElementById("dodaj_form");
+    if (form.style.display === "none") {
+      form.style.display = "block";
+      button.innerHTML = "Anuluj -";
+    } else {
+      form.style.display = "none";
+      button.innerHTML = "Dodaj +";
+    }
+  }
+</script>
+
+{% endblock %}

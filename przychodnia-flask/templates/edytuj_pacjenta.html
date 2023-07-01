@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>Lista pacjentów</h1>
+{% endblock %}
+
+{% block content %}
+<button class="btn btn-outline btn-primary " onclick="pokaz_form()">+ Dodaj</button>
+<div class="text-danger"> {{ error_string }} </div>
+<div class="m-3 p-1 border border-primary" id="dodaj_form">
+  <form method="post">
+    <input type="hidden" name="id" value="{{ id }}">
+    <div class="mb-3">
+      <label for="imie" class="form-label">Imię</label>
+      <input type="text" class="form-control" id="imie" name="imie" value="{{ imie }}" placeholder="Wpisz imię pacjenta.">
+    </div>
+    <div class="mb-3">
+      <label for="nazwisko" class="form-label">Nazwisko</label>
+      <input type="text" class="form-control" id="nazwisko" name="nazwisko" value="{{ nazwisko }}" placeholder="Wpisz nazwisko pacjenta.">
+    </div>
+    <div class="mb-3">
+      <label for="data_urodzenia" class="form-label">Data Urodzenia</label>
+      <input type="date" class="form-control" id="data_urodzenia" name="data_urodzenia"
+        value="{{ data_urodzenia }}">
+    </div>
+    <div class="mb-3">
+      <label for="adres" class="form-label">Adres</label>
+      <input type="text" class="form-control" id="adres" name="adres" value="{{ adres }}" placeholder="Wpisz adres pacjenta.">
+    </div>
+    <div class="mb-3">
+      <label for="telefon" class="form-label">Telefon</label>
+      <input type="tel" class="form-control" id="telefon" name="telefon" pattern="[0-9]{3}-[0-9]{3}-[0-9]{3}" value="{{ telefon }}" placeholder="123-456-789">
+    </div>
+    <div class="mb-3">
+      <label for="email" class="form-label">Email</label>
+      <input type="email" class="form-control" id="email" name="email" value="{{ email }}" placeholder="Wpisz email pacjenta.">
+    </div>
+    <button type="submit" class="btn btn-primary">Zapisz</button>
+  </form>
+</div>
+
+<script>
+
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>Lista recept</h1>
+{% endblock %}
+
+{% block content %}
+
+<center><button id="toggleButton" class="btn btn-outline btn-primary" onclick="pokaz_form()">Dodaj +</button></center>
+<div class="text-danger"> {{ error_string }} </div>
+<div class="m-3 p-1 border border-primary" id="dodaj_form" style="display: none;">
+  <form method="post">
+    <div class="mb-3">
+      <label for="id_pacjenta" class="form-label">Pacjent</label>
+      <select class="form-select" name="id_pacjenta" id="id_pacjenta">
+        <option value="" disabled selected>Wybierz pacjenta</option>
+        {% for (id_pacjenta, imie, nazwisko) in pacjenci %}
+        <option value="{{id_pacjenta}}">{{nazwisko}} {{imie}}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="mb-3">
+      <label for="id_lekarza" class="form-label">Lekarz</label>
+      <select class="form-select" name="id_lekarza" id="id_lekarza">
+        <option value="" disabled selected>Wybierz lekarza</option>
+        {% for (id_lekarza, imie, nazwisko, specjalizacja) in lekarze %}
+        <option value="{{id_lekarza}}">{{nazwisko}} {{imie}} {{specjalizacja}}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="mb-3">
+      <label for="data_wystawienia" class="form-label">Data wystawienia</label>
+      <input type="date" class="form-control" id="data_wystawienia" name="data_wystawienia"
+        value="{{ request.form['data_wystawienia'] }}">
+    </div>
+    <div class="mb-3">
+      <label for="data_waznosci" class="form-label">Data ważności</label>
+      <input type="date" class="form-control" id="data_waznosci" name="data_waznosci"
+        value="{{ request.form['data_waznosci'] }}">
+    </div>
+    <div class="mb-3">
+      <label for="leki" class="form-label">Leki</label>
+      <input type="text" class="form-control" id="leki" name="leki" value="{{ request.form['leki'] }}" placeholder="Wpisz leki.">
+    </div>
+    <button type="submit" class="btn btn-primary">Zapisz</button>
+  </form>
+</div>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th scope="col"> ID recepty </th>
+      <th scope="col"> Pacjent </th>
+      <th scope="col"> Lekarz </th>
+      <th scope="col"> data wystawienia </th>
+      <th scope="col"> data waznosci </th>
+      <th scope="col"> leki </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    {% for (id_recepty, imie_lek, nazwisko_lek, imie, nazwisko, data_wystawienia, data_waznosci, leki) in data %}
+    <tr>
+      <td> {{id_recepty}} </td>
+      <td> {{imie}} {{nazwisko}}</td>
+      <td> {{imie_lek}} {{nazwisko_lek}}</td>
+      <td> {{data_wystawienia}} </td>
+      <td> {{data_waznosci}}</td>
+      <td> {{leki}}</td>
+      <td>
+        <form method="get" action="/edytuj_recepty">
+          <input type="hidden" name="id" value="{{id_recepty}}">
+          <button class="btn btn-outline btn-success" type="submit">Edytuj</button>
+        </form>
+        <form method="post">
+          <input type="hidden" name="id" value="{{id_recepty}}">
+          <button class="btn btn-outline btn-success" type="submit">Usuń</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+
+</table>
+
+
+<script>
+  function pokaz_form() {
+    var button = document.getElementById("toggleButton");
+    var form = document.getElementById("dodaj_form");
+    if (form.style.display === "none") {
+      form.style.display = "block";
+      button.innerHTML = "Anuluj -";
+    } else {
+      form.style.display = "none";
+      button.innerHTML = "Dodaj +";
+    }
+  }
+</script>
+
+{% endblock %}

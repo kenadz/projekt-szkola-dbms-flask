@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>Lista lekarzy</h1>
+{% endblock %}
+
+{% block content %}
+<center><button id="toggleButton" class="btn btn-outline btn-primary" onclick="pokaz_form()">Dodaj +</button></center>
+<div class="text-danger">{{ error_string }}</div>
+<div class="m-3 p-1 border border-primary" id="dodaj_form" style="display: none;">
+  <form method="post">
+    <div class="mb-3">
+      <label for="imie_lek" class="form-label">Imię</label>
+      <input type="text" class="form-control" id="imie_lek" name="imie_lek" value="{{ request.form['imie_lek'] }}" placeholder="Wpisz imię lekarza.">
+    </div>
+    <div class="mb-3">
+      <label for="nazwisko_lek" class="form-label">Nazwisko</label>
+      <input type="text" class="form-control" id="nazwisko_lek" name="nazwisko_lek" value="{{ request.form['nazwisko_lek'] }}" placeholder="Wpisz nazwisko lekarza.">
+    </div>
+    <div class="mb-3">
+      <label for="specjalizacja" class="form-label">Specjalizacja</label>
+      <input type="text" class="form-control" id="specjalizacja" name="specjalizacja"
+        value="{{ request.form['specjalizacja'] }}" placeholder="Wpisz specjalizację lekarza.">
+    </div>
+    <div class="mb-3">
+      <label for="telefon" class="form-label">Telefon</label>
+      <input type="tel" class="form-control" id="telefon" name="telefon" pattern="[0-9]{3}-[0-9]{3}-[0-9]{3}" value="{{ request.form['telefon'] }}" placeholder="123-456-789">
+    </div>
+    <div class="mb-3">
+      <label for="email" class="form-label">E-mail</label>
+      <input type="email" class="form-control" id="email" name="email" value="{{ request.form['email'] }}" placeholder="przykladowy@mail.pl">
+    </div>
+    <button type="submit" class="btn btn-primary">Zapisz</button>
+  </form>
+</div>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th scope="col"> Imię </th>
+      <th scope="col"> Nazwisko </th>
+      <th scope="col"> Specjalizacja </th>
+      <th scope="col"> Telefon </th>
+      <th scope="col"> Email </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    {% for (id_lekarza, imie_lek, nazwisko_lek, specjalizacja, telefon, email) in data %}
+    <tr>
+      <td style="display: none"> {{id_lekarza}} </td>
+      <td>{{imie_lek}}</td>
+      <td>{{nazwisko_lek}}</td>
+      <td> {{specjalizacja}} </td>
+      <td>{{telefon}}</td>
+      <td>{{email}}</td>
+      <td>
+        <form method="get" action="/edytuj_lekarza">
+          <input type="hidden" name="id" value="{{id_lekarza}}">
+          <button class="btn btn-outline btn-success" type="submit">Edytuj</button>
+        </form>
+        <form method="post">
+          <input type="hidden" name="id" value="{{id_lekarza}}">
+          <button class="btn btn-outline btn-success" type="submit">Usuń</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+
+</table>
+
+<script>
+  function pokaz_form() {
+    var button = document.getElementById("toggleButton");
+    var form = document.getElementById("dodaj_form");
+    if (form.style.display === "none") {
+      form.style.display = "block";
+      button.innerHTML = "Anuluj -";
+    } else {
+      form.style.display = "none";
+      button.innerHTML = "Dodaj +";
+    }
+  }
+</script>
+
+{% endblock %}

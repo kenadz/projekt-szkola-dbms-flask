@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>Lista lekarzy</h1>
+{% endblock %}
+
+{% block content %}
+<button class="btn btn-outline btn-primary " onclick="pokaz_form()">+ Dodaj</button>
+<div class="text-danger"> {{ error_string }} </div>
+<div class="m-3 p-1 border border-primary" id="dodaj_form">
+  <form method="post">
+    <input type="hidden" name="id" value="{{ id }}">
+    <div class="mb-3">
+      <label for="imie_lek" class="form-label">Imię</label>
+      <input type="text" class="form-control" id="imie_lek" name="imie_lek" value="{{ imie_lek }}" placeholder="Wpisz imię lekarza.">
+    </div>
+    <div class="mb-3">
+      <label for="nazwisko_lek" class="form-label">Nazwisko</label>
+      <input type="text" class="form-control" id="nazwisko_lek" name="nazwisko_lek" value="{{ nazwisko_lek }}" placeholder="Wpisz nazwisko lekarza.">
+    </div>
+    <div class="mb-3">
+      <label for="specjalizacja" class="form-label">Specjalizacja</label>
+      <input type="text" class="form-control" id="specjalizacja" name="specjalizacja"
+        value="{{ specjalizacja }}" placeholder="Wpisz specjalizację lekarza.">
+    </div>
+    <div class="mb-3">
+      <label for="telefon" class="form-label">Telefon</label>
+      <input type="tel" class="form-control" id="telefon" name="telefon" pattern="[0-9]{3}-[0-9]{3}-[0-9]{3}" value="{{ telefon }}" placeholder="123-456-789">
+    </div>
+    <div class="mb-3">
+      <label for="email" class="form-label">Email</label>
+      <input type="email" class="form-control" id="email" name="email" value="{{ email }}" placeholder="Wpisz email lekarza.">
+    </div>
+    <button type="submit" class="btn btn-primary">Zapisz</button>
+  </form>
+</div>
+
+{% endblock %}

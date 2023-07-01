@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>Lista wizyt</h1>
+{% endblock %}
+
+{% block content %}
+<center><button id="toggleButton" class="btn btn-outline btn-primary" onclick="pokaz_form()">Dodaj +</button></center>
+<div class="text-danger"> {{ error_string }} </div>
+<div class="m-3 p-1 border border-primary" id="dodaj_form" style="display: none;">
+  <form method="post">
+    <div class="mb-3">
+      <label for="id_pacjenta" class="form-label">Pacjent</label>
+      <select class="form-select" name="id_pacjenta" id="id_pacjenta">
+        <option value="" disabled selected>Wybierz pacjenta</option>
+        {% for (id_pacjenta, imie, nazwisko) in pacjenci %}
+        <option value="{{id_pacjenta}}|{{imie}}|{{nazwisko}}">{{nazwisko}} {{imie}}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="mb-3">
+      <label for="id_lekarza" class="form-label">Lekarz</label>
+      <select class="form-select" name="id_lekarza" id="id_lekarza">
+        <option value="" disabled selected>Wybierz lekarza</option>
+        {% for (id_lekarza, imie_lek, nazwisko_lek, specjalizacja) in lekarze %}
+        <option value="{{id_lekarza}}|{{nazwisko_lek}}|{{imie_lek}}">{{nazwisko_lek}} {{imie_lek}} {{specjalizacja}}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="mb-3">
+      <label for="data_wizyty" class="form-label">Data wizyty</label>
+      <input type="date" class="form-control" id="data_wizyty" name="data_wizyty"
+        value="{{ request.form['data_wizyty'] }}">
+    </div>
+    <div class="mb-3">
+      <label for="godzina_wizyty" class="form-label">Godzina wizyty</label>
+      <input type="time" class="form-control" id="godzina_wizyty" name="godzina_wizyty"
+        value="{{ request.form['godzina_wizyty'] }}">
+    </div>
+    <div class="mb-3">
+      <label for="notatka" class="form-label">Notatka</label>
+      <input type="text" class="form-control" id="notatka" name="notatka" value="{{ request.form['notatka'] }}" placeholder="Wpisz notatkę do wizyty.">
+    </div>
+    <div class="mb-3">
+      <label for="czy_sie_odbyla" class="form-label">Czy się odbyła?</label>
+      <input type="text" class="form-control" id="czy_sie_odbyla" name="czy_sie_odbyla"
+        value="{{ request.form['czy_sie_odbyla'] }}" placeholder="Wpisz, czy wizyta się odbyła.">
+    </div>
+    <button type="submit" class="btn btn-primary">Zapisz</button>
+  </form>
+</div>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th scope="col"> ID wizyty </th>
+      <th scope="col"> Pacjent </th>
+      <th scope="col"> Lekarz </th>
+      <th scope="col"> data wizyty </th>
+      <th scope="col"> godzina wizyty </th>
+      <th scope="col"> notatka </th>
+      <th scope="col"> czy się odbyła </th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for (id_wizyty, imie, nazwisko, imie_lek, nazwisko_lek, data_wizyty, godzina_wizyty, notatka, czy_sie_odbyla) in
+    data %}
+    <tr>
+      <td> {{id_wizyty}} </td>
+      <td>{{imie}} {{nazwisko}}</td>
+      <td>{{imie_lek}} {{nazwisko_lek}}</td>
+      <td> {{data_wizyty}} </td>
+      <td> {{godzina_wizyty}}</td>
+      <td> {{notatka}}</td>
+      <td> {{czy_sie_odbyla}}</td>
+      <td>
+        <form method="get" action="/edytuj_wizyty">
+          <input type="hidden" name="id" value="{{id_wizyty}}">
+          <button class="btn btn-outline btn-success" type="submit">Edytuj</button>
+        </form>
+        <form method="post">
+          <input type="hidden" name="id" value="{{id_wizyty}}">
+          <button class="btn btn-outline btn-success" type="submit">Usuń</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+
+</table>
+
+<script>
+  function pokaz_form() {
+    var button = document.getElementById("toggleButton");
+    var form = document.getElementById("dodaj_form");
+    if (form.style.display === "none") {
+      form.style.display = "block";
+      button.innerHTML = "Anuluj -";
+    } else {
+      form.style.display = "none";
+      button.innerHTML = "Dodaj +";
+    }
+  }
+</script>
+
+{% endblock %}

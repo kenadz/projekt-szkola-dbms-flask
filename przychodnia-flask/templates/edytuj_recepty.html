@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>Lista recept</h1>
+{% endblock %}
+
+{% block content %}
+<button class="btn btn-outline btn-primary " onclick="pokaz_form()">+ Dodaj</button>
+<div class="text-danger"> {{ error_string }} </div>
+<div class="m-3 p-1 border border-primary" id="dodaj_form">
+  <form method="post">
+    <input type="hidden" name="id" value="{{ id }}">
+    <div class="mb-3">
+      <label for="id_pacjenta" class="form-label">Pacjent</label>
+      <input type="text" class="form-control" id="id_pacjenta" name="id_pacjenta" readonly="readonly" value="{{ imie }} {{ nazwisko }}">
+    </div>
+    <div class="mb-3">
+      <label for="id_lekarza" class="form-label">Lekarz</label>
+      <input type="text" class="form-control" id="id_lekarza" name="id_lekarza" readonly="readonly" value="{{ imie_lek }} {{ nazwisko_lek }}">
+    </div>
+    <div class="mb-3">
+      <label for="data_wystawienia" class="form-label">Data wystawienia</label>
+      <input type="date" class="form-control" id="data_wystawienia" name="data_wystawienia"
+        value="{{ data_wystawienia }}">
+    </div>
+    <div class="mb-3">
+      <label for="data_waznosci" class="form-label">Data ważności</label>
+      <input type="date" class="form-control" id="data_waznosci" name="data_waznosci" value="{{ data_waznosci }}">
+    </div>
+    <div class="mb-3">
+      <label for="leki" class="form-label">Leki</label>
+      <input type="text" class="form-control" id="leki" name="leki" value="{{ leki }}" placeholder="Wpisz leki.">
+    </div>
+    <button type="submit" class="btn btn-primary">Zapisz</button>
+  </form>
+</div>
+
+{% endblock %}
